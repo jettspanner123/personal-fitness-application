@@ -1,12 +1,15 @@
 <h1 align="center">🏋️‍♂️ FitAI — Smart Fitness Powered by AI</h1>
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=swift,supabase,figma,git,github,xcode" alt="Tech Stack Icons" />
+  <img src="https://img.shields.io/badge/SwiftUI-iOS-orange?logo=swift" />
+  <img src="https://img.shields.io/badge/Supabase-Backend-green?logo=supabase" />
+  <img src="https://img.shields.io/badge/Xcode-Project-blue?logo=xcode" />
+  <img src="https://img.shields.io/badge/OpenAI-Integration-purple?logo=openai" />
+  <img src="https://img.shields.io/badge/License-MIT-black?logo=open-source-initiative" />
 </p>
 
 <p align="center">
-  <b>AI-driven fitness app built with SwiftUI and Supabase</b><br>
-  Generate personalized workouts, track progress, get diet plans, analyze meals via photo, and journal your fitness journey with AI.
+  AI-powered personal fitness app that creates workouts, tracks progress, recommends diets, estimates macros from photos, and maintains an intelligent workout journal.
 </p>
 
 ---
@@ -14,24 +17,25 @@
 ## 🚀 Features
 
 ### 🧠 AI Workout Generator
-- Creates personalized workout routines based on your goals, experience, and available equipment.
-- Dynamically adapts plans as you progress over time.
+- Personalized workouts based on **goal, equipment, and experience**.
+- Dynamic adjustment using previous workout performance.
+- JSON-based structured AI responses for reliable parsing.
 
 ### 📊 Workout Tracker + ⏱️ Rest Timer
-- Log sets, reps, weights, and notes.
-- Built-in rest timer with vibration and sound alerts.
+- Track **sets, reps, weights, and RPE** easily.
+- Built-in **rest timer** with vibration & audio notifications.
 
 ### 🍎 AI Diet Recommendations
-- Get diet and macro recommendations based on your goals.
-- AI-generated meal plans that fit your calories and macros.
+- Smart diet and macro suggestions based on user data.
+- Adjusts automatically as progress is tracked.
 
 ### 📸 Photo-to-Macro Analyzer
-- Take a photo of your meal, and AI estimates **calories and macros**.
-- Supports manual correction and storage in Supabase.
+- Take a meal photo — AI predicts **calories and macronutrients**.
+- Allows manual correction and saves results to Supabase.
 
 ### 📔 AI Workout Journal
-- Summarizes your workouts automatically.
-- Provides insights and personalized next-step recommendations.
+- Automatically summarizes your workout sessions.
+- AI highlights improvements and suggests actionable next steps.
 
 ---
 
@@ -39,10 +43,10 @@
 
 | Category | Technology |
 |-----------|-------------|
-| 💻 **Frontend** | ![Swift](https://skillicons.dev/icons?i=swift) SwiftUI |
-| 🧠 **AI** | LLM-based API integration (e.g. Gemini / OpenAI / custom) |
-| 🗄️ **Backend / DB** | ![Supabase](https://skillicons.dev/icons?i=supabase) Supabase (Postgres + Auth + Realtime + Storage) |
-| ⚙️ **Tools** | ![Xcode](https://skillicons.dev/icons?i=xcode) Xcode, async/await, Combine |
-| 🎨 **Design** | ![Figma](https://skillicons.dev/icons?i=figma) Figma UI Prototypes |
+| 💻 **Frontend** | ![Swift Badge](https://img.shields.io/badge/SwiftUI-iOS-orange?logo=swift) |
+| 🧠 **AI Engine** | ![OpenAI Badge](https://img.shields.io/badge/LLM-Gemini%20%7C%20OpenAI-purple?logo=openai) |
+| 🗄️ **Backend / DB** | ![Supabase Badge](https://img.shields.io/badge/Supabase-Postgres-green?logo=supabase) |
+| ⚙️ **Tools** | ![Xcode Badge](https://img.shields.io/badge/Xcode-IDE-blue?logo=xcode) |
+| 🎨 **Design** | ![Figma Badge](https://img.shields.io/badge/Figma-Design-pink?logo=figma) |
 
 ---
