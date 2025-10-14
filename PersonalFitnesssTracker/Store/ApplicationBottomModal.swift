@@ -23,6 +23,7 @@ class ApplicationBottomModal {
         self.secondaryButtonText = secondaryButtonText
         self.primaryAction = primaryAction
         self.secondaryMessage = secondaryMessage
+        self.secondaryAction = secondaryAction
         
         
         withAnimation {

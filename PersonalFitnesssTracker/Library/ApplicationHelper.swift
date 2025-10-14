@@ -20,5 +20,16 @@ class ApplicationHelper {
         return nil
     }
     
+    public func secondsToMinutes(with seconds: Int) -> String {
+        if seconds < 60 {
+            return "\(seconds) sec"
+        } else {
+            let minutes = Double(seconds) / 60.0
+            // show 1 decimal if needed (e.g., 1.5 min)
+            let formatted = String(format: minutes.truncatingRemainder(dividingBy: 1) == 0 ? "%.0f" : "%.1f", minutes)
+            return "\(formatted) min"
+        }
+    }
+    
     
 }
