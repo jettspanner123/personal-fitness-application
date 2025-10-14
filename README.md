@@ -1,77 +1,48 @@
-# 🏋️‍♂️ FitAI — Personal AI Fitness App
+<h1 align="center">🏋️‍♂️ FitAI — Smart Fitness Powered by AI</h1>
 
-**FitAI** is an AI-powered personal fitness application built with **SwiftUI** and **Supabase**.  
-It generates personalized workouts, tracks training, recommends diets, estimates macros from meal photos, provides an AI workout journal, and includes a rest timer for between sets.
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=swift,supabase,figma,git,github,xcode" alt="Tech Stack Icons" />
+</p>
 
----
-
-## Table of Contents
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Architecture Overview](#architecture-overview)
-- [Getting Started](#getting-started)
-  - [Requirements](#requirements)
-  - [Installation](#installation)
-  - [Environment Variables](#environment-variables)
-  - [Database Setup (Supabase)](#database-setup-supabase)
-- [Usage](#usage)
-  - [Auth & Onboarding](#auth--onboarding)
-  - [Generating Workouts](#generating-workouts)
-  - [Tracking Workouts](#tracking-workouts)
-  - [Food Photo → Macros](#food-photo--macros)
-  - [AI Workout Journal](#ai-workout-journal)
-  - [Rest Timer](#rest-timer)
-- [Data Model (suggested)](#data-model-suggested)
-- [Security & Privacy](#security--privacy)
-- [Testing](#testing)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
+<p align="center">
+  <b>AI-driven fitness app built with SwiftUI and Supabase</b><br>
+  Generate personalized workouts, track progress, get diet plans, analyze meals via photo, and journal your fitness journey with AI.
+</p>
 
 ---
 
-## Features
-- **AI Workout Generator**: Custom workout plans based on goals, experience, time, and available equipment.
-- **Workout Tracker**: Log sets, reps, weight, RPE; view history and simple analytics.
-- **Diet Recommendations**: AI-driven meal plans and macro targets for goals (cut, bulk, maintain).
-- **Food Photo Macro Estimation**: Upload a meal photo; AI estimates items & macros.
-- **AI Workout Journal**: Auto-summarize sessions, suggest adjustments, and generate notes.
-- **Rest Timer**: Per-set rest timer with start/pause/reset and audible/visual cues.
-- **Auth & Sync**: Email/SSO auth using Supabase; data synced cross-device via Supabase.
+## 🚀 Features
+
+### 🧠 AI Workout Generator
+- Creates personalized workout routines based on your goals, experience, and available equipment.
+- Dynamically adapts plans as you progress over time.
+
+### 📊 Workout Tracker + ⏱️ Rest Timer
+- Log sets, reps, weights, and notes.
+- Built-in rest timer with vibration and sound alerts.
+
+### 🍎 AI Diet Recommendations
+- Get diet and macro recommendations based on your goals.
+- AI-generated meal plans that fit your calories and macros.
+
+### 📸 Photo-to-Macro Analyzer
+- Take a photo of your meal, and AI estimates **calories and macros**.
+- Supports manual correction and storage in Supabase.
+
+### 📔 AI Workout Journal
+- Summarizes your workouts automatically.
+- Provides insights and personalized next-step recommendations.
 
 ---
 
-## Tech Stack
-- Frontend: **SwiftUI** (iOS 18+ recommended)
-- Backend / Database: **Supabase** (Postgres + Auth + Storage)
-- AI & Vision: — Google Generative AI 
-- Local caching & offline: SwiftData 
+## 🧩 Tech Stack
+
+| Category | Technology |
+|-----------|-------------|
+| 💻 **Frontend** | ![Swift](https://skillicons.dev/icons?i=swift) SwiftUI |
+| 🧠 **AI** | LLM-based API integration (e.g. Gemini / OpenAI / custom) |
+| 🗄️ **Backend / DB** | ![Supabase](https://skillicons.dev/icons?i=supabase) Supabase (Postgres + Auth + Realtime + Storage) |
+| ⚙️ **Tools** | ![Xcode](https://skillicons.dev/icons?i=xcode) Xcode, async/await, Combine |
+| 🎨 **Design** | ![Figma](https://skillicons.dev/icons?i=figma) Figma UI Prototypes |
 
 ---
-
-## Architecture Overview
-1. **Client (SwiftUI)**  
-   - UI, timers, camera capture, local validation, offline queueing.
-2. **Supabase**  
-   - Authentication, Postgres tables for users/workouts/meals/journal, storage for photos.
-3. **AI Services**  
-   - Workout generation, diet recommendations, and photo-to-macros. Could be remote API calls or hybrid on-device.
-4. **Sync & Background**  
-   - Sync user actions to Supabase; handle failed uploads with retry queue.
-
----
-
-## Getting Started
-
-### Requirements
-- Xcode 18+ (or latest supporting your SwiftUI targets)
-- iOS 18+ SDK
-- A Supabase project
-- API keys for chosen AI provider(s)
-
-### Installation
-1. Clone the repo:
-   ```bash
-   git clone https://your-repo-url.git
-   cd FitAI
-
