@@ -1,52 +1,53 @@
-<h1 align="center">🏋️‍♂️ FitAI — Smart Fitness Powered by AI</h1>
+# 🏋️‍♂️ FitAI — Your Personal AI Fitness Companion
 
-<p align="center">
-  <img src="https://img.shields.io/badge/SwiftUI-iOS-orange?logo=swift" />
-  <img src="https://img.shields.io/badge/Supabase-Backend-green?logo=supabase" />
-  <img src="https://img.shields.io/badge/Xcode-Project-blue?logo=xcode" />
-  <img src="https://img.shields.io/badge/OpenAI-Integration-purple?logo=openai" />
-  <img src="https://img.shields.io/badge/License-MIT-black?logo=open-source-initiative" />
-</p>
-
-<p align="center">
-  AI-powered personal fitness app that creates workouts, tracks progress, recommends diets, estimates macros from photos, and maintains an intelligent workout journal.
-</p>
+![Swift](https://img.shields.io/badge/Swift-F05138?logo=swift&logoColor=white)
+![SwiftUI](https://img.shields.io/badge/SwiftUI-0D96F6?logo=swift&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase&logoColor=white)
+![iOS](https://img.shields.io/badge/iOS-000000?logo=apple&logoColor=white)
+![AI](https://img.shields.io/badge/AI-444444?logo=openai&logoColor=white)
+![Gemini](https://img.shields.io/badge/Gemini%20API-4285F4?logo=google&logoColor=white)
 
 ---
 
-## 🚀 Features
+## 🚀 Overview
 
-### 🧠 AI Workout Generator
-- Personalized workouts based on **goal, equipment, and experience**.
-- Dynamic adjustment using previous workout performance.
-- JSON-based structured AI responses for reliable parsing.
-
-### 📊 Workout Tracker + ⏱️ Rest Timer
-- Track **sets, reps, weights, and RPE** easily.
-- Built-in **rest timer** with vibration & audio notifications.
-
-### 🍎 AI Diet Recommendations
-- Smart diet and macro suggestions based on user data.
-- Adjusts automatically as progress is tracked.
-
-### 📸 Photo-to-Macro Analyzer
-- Take a meal photo — AI predicts **calories and macronutrients**.
-- Allows manual correction and saves results to Supabase.
-
-### 📔 AI Workout Journal
-- Automatically summarizes your workout sessions.
-- AI highlights improvements and suggests actionable next steps.
+**FitAI** is an intelligent fitness app built with **SwiftUI** and powered by **Supabase**.  
+It leverages **AI** to create fully personalized workout and diet experiences — helping users achieve their fitness goals smarter and faster.
 
 ---
 
-## 🧩 Tech Stack
+## 💪 Key Features
 
-| Category | Technology |
-|-----------|-------------|
-| 💻 **Frontend** | ![Swift Badge](https://img.shields.io/badge/SwiftUI-iOS-orange?logo=swift) |
-| 🧠 **AI Engine** | ![OpenAI Badge](https://img.shields.io/badge/LLM-Gemini%20%7C%20OpenAI-purple?logo=openai) |
-| 🗄️ **Backend / DB** | ![Supabase Badge](https://img.shields.io/badge/Supabase-Postgres-green?logo=supabase) |
-| ⚙️ **Tools** | ![Xcode Badge](https://img.shields.io/badge/Xcode-IDE-blue?logo=xcode) |
-| 🎨 **Design** | ![Figma Badge](https://img.shields.io/badge/Figma-Design-pink?logo=figma) |
+### 🤖 AI Workout Generator
+- Creates custom workouts based on fitness goals, level, and available equipment.  
+- Learns and adapts as you progress.
+
+### 📊 Workout Tracker
+- Log sets, reps, and weights.
+- Visual progress insights with charts and stats.
+
+### 🍎 AI Diet Planner
+- Smart meal recommendations and daily macro breakdown.
+- Tailored nutrition plans to support your goals.
+
+### 📸 Photo-to-Macros
+- Upload or snap a meal photo — AI detects the food and estimates macros.
+
+### 🧠 AI Workout Journal
+- AI summarizes your workouts, gives feedback, and tracks mood & energy levels.
+
+### ⏱️ Rest Timer
+- In-built timer between sets with notifications and custom durations.
+
+---
+
+## 🧰 Tech Stack
+
+| Component | Technology |
+|------------|-------------|
+| **Frontend** | SwiftUI |
+| **Backend** | Supabase |
+| **AI Models** | Gemini API (Google), Custom ML Models |
+| **Platform** | iOS |
 
 ---
