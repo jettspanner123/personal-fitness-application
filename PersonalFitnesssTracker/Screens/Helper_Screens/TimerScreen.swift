@@ -69,6 +69,20 @@ struct TimerScreen: View {
         self.timer = nil
     }
     
+    func handleAddSecondsTimer(seconds: Int) {
+        withAnimation {
+            let totalSeconds = self.selectedMinutes * 60 + self.selectedSeconds + seconds
+
+            if totalSeconds <= 0 {
+                self.selectedMinutes = 0
+                self.selectedSeconds = 0
+            } else {
+                self.selectedMinutes = totalSeconds / 60
+                self.selectedSeconds = totalSeconds % 60
+            }
+        }
+    }
+    
     
     var body: some View {
         ZStack {
@@ -115,36 +129,53 @@ struct TimerScreen: View {
                 
                 HStack {
                     HStack {
-                        
+                        Text("-20s")
+                            .font(.system(size: 13, weight: .bold, design: .rounded))
                     }
                     .frame(width: 60, height: 60)
                     .glassEffect(.regular.interactive(), in: Circle())
+                    .contentShape(Circle())
+                    .onTapGesture {
+                        self.handleAddSecondsTimer(seconds: -20)
+                    }
                     
                     HStack {
-                        
+                        Text("-10s")
+                            .font(.system(size: 13, weight: .bold, design: .rounded))
                     }
                     .frame(width: 60, height: 60)
                     .glassEffect(.regular.interactive(), in: Circle())
-                    
-                    HStack {
-                        
+                    .contentShape(Circle())
+                    .onTapGesture {
+                        self.handleAddSecondsTimer(seconds: -10)
                     }
-                    .frame(width: 60, height: 60)
-                    .glassEffect(.regular.tint(.appPrimary).interactive(), in: Circle())
+                    
                     
                     HStack {
-                        
-                    }
-                    .frame(width: 60, height: 60)
-                    .glassEffect(.regular.interactive(), in: Circle())
-                    
-                    HStack {
-                        
+                        Text("+10s")
+                            .font(.system(size: 13, weight: .bold, design: .rounded))
                     }
                     .frame(width: 60, height: 60)
                     .glassEffect(.regular.interactive(), in: Circle())
+                    .contentShape(Circle())
+                    .onTapGesture {
+                        self.handleAddSecondsTimer(seconds: 10)
+                    }
+                    
+                    HStack {
+                        Text("+20s")
+                            .font(.system(size: 13, weight: .bold, design: .rounded))
+                    }
+                    .frame(width: 60, height: 60)
+                    .glassEffect(.regular.interactive(), in: Circle())
+                    .contentShape(Circle())
+                    .onTapGesture {
+                        self.handleAddSecondsTimer(seconds: 20)
+                    }
                 }
                 .frame(maxWidth: .infinity)
+                .opacity(self.isTimerStarted ? 1 : 0.5)
+                .allowsHitTesting(self.isTimerStarted)
                 
                 
                 

@@ -7,6 +7,8 @@ struct AddExercisesScreen: View {
     @Environment(ApplicationToast.self) var applicationToast
     @Environment(ApplicationBottomModal.self) var applicationBottomModal
     
+    @Namespace var animationNamespace
+    
     @State var text: String = ""
     @FocusState var keyboardFocusState: Bool
     
@@ -208,6 +210,7 @@ struct AddExercisesScreen: View {
                             .scaleEffect(0.85)
                     }
                 }
+                .matchedTransitionSource(id: "dismiss_keyboard", in: self.animationNamespace)
             }
         }
         .navigationBarBackButtonHidden()

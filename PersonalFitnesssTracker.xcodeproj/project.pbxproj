@@ -10,6 +10,19 @@
 		079ACDF62E9CE0AF0064BA39 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 079ACDF52E9CE0AF0064BA39 /* GoogleGenerativeAI */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		078204892EABF6F200601672 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		070BCBCF2E94EEE3002B127E /* PersonalFitnesssTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PersonalFitnesssTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -73,6 +86,7 @@
 				070BCBCB2E94EEE3002B127E /* Sources */,
 				070BCBCC2E94EEE3002B127E /* Frameworks */,
 				070BCBCD2E94EEE3002B127E /* Resources */,
+				078204892EABF6F200601672 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);

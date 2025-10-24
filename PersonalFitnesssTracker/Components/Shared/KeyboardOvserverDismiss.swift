@@ -13,10 +13,14 @@ class KeyboardOvserver {
     
     init() {
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
-            self.isVisible = true
+            withAnimation {
+                self.isVisible = true
+            }
         }
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
-            self.isVisible = false
+            withAnimation {
+                self.isVisible = false
+            }
         }
     }
 }

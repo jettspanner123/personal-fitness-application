@@ -15,7 +15,8 @@ struct WorkoutScreen: View {
     @State var showAllExercises: Bool = false
     @State var showAddExercisePage: Bool = false
     @State var showCreateWorkoutPage: Bool = false
-    @State var showTimerPage: Bool = true
+    @State var showTimerPage: Bool = false
+    @State var showWorkoutJournalPage: Bool = true
     
     let screen = UIScreen()
     
@@ -83,6 +84,17 @@ struct WorkoutScreen: View {
                         .contentShape(Circle())
                 }
                 .buttonStyle(.glass)
+                .overlay {
+                    GeometryReader { proxy in
+                        Button(action: { self.workoutSplitSheet = true }) {
+                            Image(systemName: "house.fill")
+                                .frame(width: 30, height: 30)
+                                .contentShape(Circle())
+                        }
+                        .buttonStyle(.glass)
+                        .offset(y: -proxy.size.height - 5)
+                    }
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             
@@ -120,6 +132,12 @@ struct WorkoutScreen: View {
 
                 VStack {
                     
+                    
+                    
+                    
+                    
+                    // MARK: Timer Button
+                    
                     HStack {
                        Image(systemName: "clock.fill")
                             .foregroundStyle(.black)
@@ -133,6 +151,12 @@ struct WorkoutScreen: View {
                         self.showTimerPage = true
                     }
                     
+                    
+                    
+                    
+                    
+                    // MARK: Notes button
+                    
                     HStack {
                        Image(systemName: "pencil.tip.crop.circle.fill")
                             .padding()
@@ -140,6 +164,10 @@ struct WorkoutScreen: View {
                     .frame(width: 80)
                     .frame(maxHeight: .infinity)
                     .glassEffect(.regular.interactive())
+                    .contentShape(Capsule())
+                    .onTapGesture {
+                        self.showWorkoutJournalPage = true
+                    }
                 }
                 .frame(maxHeight: .infinity)
             }
@@ -222,6 +250,9 @@ struct WorkoutScreen: View {
         }
         .navigationDestination(isPresented: self.$showTimerPage) {
             TimerScreen()
+        }
+        .navigationDestination(isPresented: self.$showWorkoutJournalPage) {
+            TodoScreen(currentDay: self.getDayToday())
         }
         .sheet(isPresented: self.$workoutSplitSheet) {
             WorkoutSplitScreen(currentDay: self.getDayToday())

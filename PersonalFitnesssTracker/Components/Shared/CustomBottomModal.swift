@@ -26,11 +26,12 @@ struct CustomBottomModal: View {
                     Text(self.applicationBottomModal.secondaryMessage)
                         .font(.system(size: 15, weight: .regular, design: .rounded))
                         .foregroundStyle(.white.opacity(0.6))
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.top, 5)
                     
                     HStack {
                         Text(self.applicationBottomModal.primaryButtonText)
-                            .font(.system(size: 15, weight: .regular, design: .rounded))
+                            .font(.system(size: 15, weight: .bold, design: .rounded))
                             .padding()
                             .frame(maxWidth: .infinity)
                             .glassEffect(.regular.tint(.appPrimary).interactive(), in: .rect(cornerRadius: 12.0))
@@ -40,7 +41,7 @@ struct CustomBottomModal: View {
                             }
                         
                         Text(self.applicationBottomModal.secondaryButtonText)
-                            .font(.system(size: 15, weight: .regular, design: .rounded))
+                            .font(.system(size: 15, weight: .bold, design: .rounded))
                             .padding()
                             .frame(maxWidth: .infinity)
                             .glassEffect(.regular.tint(.red).interactive(), in: .rect(cornerRadius: 12.0))
