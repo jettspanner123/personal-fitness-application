@@ -12,6 +12,8 @@ struct WorkoutSplitScreen: View {
     @Environment(\.dismiss) var dismiss
     @Environment(ApplicationWorkoutStates.self) var applicationWorkoutStates
     
+    @State var showEditSplitScreen: Bool = false
+    
     
     var currentDay: DayName
     
@@ -30,14 +32,15 @@ struct WorkoutSplitScreen: View {
             content: {
                 VStack {
                     
-                    Text("All your workouts for the week’s split will appear here, complete with detailed exercises and routines for each day.")
+                    Text("All your workouts for the week’s split will appear here, and completed with detailed exercises and routines for each day.")
                         .font(.system(size: 13, weight: .regular, design: .rounded))
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.white.opacity(0.5))
                         .padding(.top)
                         .onAppear {
                             print(self.currentDay)
                         }
-                   
+                    
                     SectionHeading(
                         heading: "Today Day".uppercased(),
                         secondaryHeading: self.currentDate
@@ -50,7 +53,7 @@ struct WorkoutSplitScreen: View {
                     SectionHeading(
                         heading: "Other Days".uppercased()
                     )
-
+                    
                     
                     ForEach(Array(self.applicationWorkoutStates.weeklySplit.enumerated()), id: \.offset) { index_t, day in
                         if day.forDay != self.currentDay {
@@ -62,7 +65,9 @@ struct WorkoutSplitScreen: View {
             },
             secondaryContent: {
                 HStack {
-                    Button(action: {}) {
+                    Button(action: {
+                        self.showEditSplitScreen = true
+                    }) {
                         Image(systemName: "ellipsis")
                             .frame(width: 30, height: 30)
                     }
@@ -71,6 +76,14 @@ struct WorkoutSplitScreen: View {
             },
             margin: ApplicationMarginPadding.current.scrollViewHorizontalMargin
         )
+        .sheet(isPresented: self.$showEditSplitScreen) {
+            EditWorkoutSplitScreen()
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.showEditSplitScreen = true
+            }
+        }
     }
 }
 

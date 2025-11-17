@@ -11,12 +11,12 @@ struct WorkoutScreen: View {
     
     @Environment(ApplicationWorkoutStates.self) var applicationWorkoutStates
     
-    @State var workoutSplitSheet: Bool = false
+    @State var showWorkoutSplitSheet: Bool = false
     @State var showAllExercises: Bool = false
     @State var showAddExercisePage: Bool = false
     @State var showCreateWorkoutPage: Bool = false
     @State var showTimerPage: Bool = false
-    @State var showWorkoutJournalPage: Bool = true
+    @State var showWorkoutJournalPage: Bool = false
     
     let screen = UIScreen()
     
@@ -40,21 +40,23 @@ struct WorkoutScreen: View {
     }
     
     var targetCaloriesBurnedViaWorkout: Double {
-        var numberOfTotalReps: Int = .zero
-        for item in self.currentDayWorkout.exercises {
-            numberOfTotalReps += item.key.reps * item.key.sets
+        var totalReps: Int = .zero
+        
+        for exercise in self.currentDayWorkout.exercises {
+            totalReps += exercise.key.reps.reduce(0) { return $0 + $1 }
         }
-        return Double(numberOfTotalReps) * 0.5
+        return Double(totalReps) * 0.4
     }
     
     var actualCaloriesBurnedViaWorkout: Double {
-        var numberOfReps: Int = .zero
-        for item in self.currentDayWorkout.exercises {
-            if item.value {
-                numberOfReps += item.key.reps * item.key.sets
+        var totalReps: Int = .zero
+        
+        for exercise in self.currentDayWorkout.exercises {
+            if exercise.value {
+                totalReps += exercise.key.reps.reduce(0) { return $0 + $1 }
             }
         }
-        return Double(numberOfReps) * 0.5
+        return Double(totalReps) * 0.4
     }
     
     var body: some View {
@@ -78,7 +80,7 @@ struct WorkoutScreen: View {
                 Spacer()
                 
                 
-                Button(action: { self.workoutSplitSheet = true }) {
+                Button(action: { self.showWorkoutSplitSheet = true }) {
                     Image(systemName: "gear")
                         .frame(width: 30, height: 30)
                         .contentShape(Circle())
@@ -86,7 +88,7 @@ struct WorkoutScreen: View {
                 .buttonStyle(.glass)
                 .overlay {
                     GeometryReader { proxy in
-                        Button(action: { self.workoutSplitSheet = true }) {
+                        Button(action: { self.showWorkoutSplitSheet = true }) {
                             Image(systemName: "house.fill")
                                 .frame(width: 30, height: 30)
                                 .contentShape(Circle())
@@ -106,7 +108,7 @@ struct WorkoutScreen: View {
                 
                 Spacer()
                 
-                Text(String(format: "%.1f", self.actualCaloriesBurnedViaWorkout))
+                Text(String(format: "%.1f", self.targetCaloriesBurnedViaWorkout))
                     .antonFont(with: 20)
                     .foregroundStyle(.appPrimary)
                 Text("kCal")
@@ -237,7 +239,14 @@ struct WorkoutScreen: View {
             .frame(maxWidth: .infinity)
             .padding(.top, 1)
             
-            SectionHeading(heading: "Somethng Else".uppercased())
+            SectionHeading(heading: "Water Intake".uppercased())
+            
+            VStack {
+                
+            }
+            .frame(height: 200)
+            .frame(maxWidth: .infinity)
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 12.0))
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -254,11 +263,9 @@ struct WorkoutScreen: View {
         .navigationDestination(isPresented: self.$showWorkoutJournalPage) {
             TodoScreen(currentDay: self.getDayToday())
         }
-        .sheet(isPresented: self.$workoutSplitSheet) {
+        .sheet(isPresented: self.$showWorkoutSplitSheet) {
             WorkoutSplitScreen(currentDay: self.getDayToday())
         }
-        
-        
     }
 }
 
