@@ -27,61 +27,66 @@ struct WorkoutSplitScreen: View {
     
     
     var body: some View {
-        CustomSheetView<VStack, HStack>(
-            heading: "Weekly Split",
-            content: {
-                VStack {
-                    
-                    Text("All your workouts for the week’s split will appear here, and completed with detailed exercises and routines for each day.")
-                        .font(.system(size: 13, weight: .regular, design: .rounded))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.white.opacity(0.5))
-                        .padding(.top)
-                        .onAppear {
-                            print(self.currentDay)
-                        }
-                    
-                    SectionHeading(
-                        heading: "Today Day".uppercased(),
-                        secondaryHeading: self.currentDate
-                    )
-                    
-                    let currentDayWorkout: DailyWorkout = self.applicationWorkoutStates.weeklySplit.filter({ $0.forDay == self.currentDay }).first!
-                    
-                    FullDayWorkoutCard(dailyWorkoutPlan: currentDayWorkout, currentDay: self.currentDay)
-                    
-                    SectionHeading(
-                        heading: "Other Days".uppercased()
-                    )
-                    
-                    
-                    ForEach(Array(self.applicationWorkoutStates.weeklySplit.enumerated()), id: \.offset) { index_t, day in
-                        if day.forDay != self.currentDay {
-                            FullDayWorkoutCard(dailyWorkoutPlan: day, currentDay: self.currentDay)
-                        }
+        ScrollView(showsIndicators: false) {
+            VStack {
+                
+                Text("All your workouts for the week’s split will appear here, and completed with detailed exercises and routines for each day.")
+                    .font(.system(size: 13, weight: .regular, design: .rounded))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundStyle(.white.opacity(0.5))
+                    .padding(.top, -40)
+                
+                SectionHeading(
+                    heading: "Today Day".uppercased(),
+                    secondaryHeading: self.currentDate
+                )
+                
+                let currentDayWorkout: DailyWorkout = self.applicationWorkoutStates.weeklySplit.filter({ $0.forDay == self.currentDay }).first!
+                
+                FullDayWorkoutCard(dailyWorkoutPlan: currentDayWorkout, currentDay: self.currentDay)
+                
+                SectionHeading(
+                    heading: "Other Days".uppercased()
+                )
+                
+                
+                ForEach(Array(self.applicationWorkoutStates.weeklySplit.enumerated()), id: \.offset) { index_t, day in
+                    if day.forDay != self.currentDay {
+                        FullDayWorkoutCard(dailyWorkoutPlan: day, currentDay: self.currentDay)
                     }
-                    
                 }
-            },
-            secondaryContent: {
-                HStack {
-                    Button(action: {
-                        self.showEditSplitScreen = true
-                    }) {
-                        Image(systemName: "ellipsis")
-                            .frame(width: 30, height: 30)
-                    }
-                    .buttonStyle(.glass)
-                }
-            },
-            margin: ApplicationMarginPadding.current.scrollViewHorizontalMargin
-        )
-        .sheet(isPresented: self.$showEditSplitScreen) {
-            EditWorkoutSplitScreen()
+                
+            }
         }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.showEditSplitScreen = true
+        .padding(.horizontal, ApplicationMarginPadding.current.scrollViewHorizontalMargin)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    self.dismiss()
+                }) {
+                    Image(systemName: "xmark")
+                        .scaleEffect(0.9)
+                }
+            }
+            
+            
+            ToolbarItem(placement: .principal) {
+                Text("Weekly Split".uppercased())
+                    .antonFont(with: 25)
+            }
+           
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: {
+                    self.showEditSplitScreen = true
+                }) {
+                    Image(systemName: "ellipsis")
+                        .scaleEffect(0.9)
+                }
+            }
+        }
+        .sheet(isPresented: self.$showEditSplitScreen) {
+            NavigationStack {
+                EditWorkoutSplitScreen()
             }
         }
     }

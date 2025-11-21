@@ -31,5 +31,12 @@ class ApplicationHelper {
         }
     }
     
+    public func getDayToday() -> DayName {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        
+        return DayName(rawValue: dateFormatter.string(from: .now).lowercased())!
+    }
+
     
 }

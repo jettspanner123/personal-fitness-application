@@ -12,6 +12,7 @@ struct WorkoutScreen: View {
     @Environment(ApplicationWorkoutStates.self) var applicationWorkoutStates
     
     @State var showWorkoutSplitSheet: Bool = false
+    @State var showExerciseEditSheet: Bool = false
     @State var showAllExercises: Bool = false
     @State var showAddExercisePage: Bool = false
     @State var showCreateWorkoutPage: Bool = false
@@ -122,6 +123,7 @@ struct WorkoutScreen: View {
                 RoundedRectangle(cornerRadius: 12)
                     .stroke(.white.opacity(0.15))
             }
+            .offset(y: -20)
             
             
             HStack {
@@ -173,9 +175,11 @@ struct WorkoutScreen: View {
                 }
                 .frame(maxHeight: .infinity)
             }
+            .offset(y: -20)
             
             SectionHeading(heading: "NEXT WORKOUT", secondaryHeading: self.currentDayWorkout.isRestDay != nil ? "[ REST DAY ]" : "[ \(self.currentDayWorkout.exercises.count) EXERCISES ]")
-            
+                .offset(y: -20)
+
             if currentDayWorkout.isRestDay != nil {
                 VStack(spacing: -20) {
                     Image(systemName: "figure.cooldown")
@@ -185,15 +189,24 @@ struct WorkoutScreen: View {
                 }
                 .padding(.top, 25)
                 .opacity(0.75)
+                .offset(y: -20)
             } else {
                 ForEach(Array(self.currentDayWorkout.exercises.prefix(2).enumerated()), id: \.offset) { index, exercise in
                     ExerciseStructureButton(index: index, exercise: exercise.key)
+                        .onTapGesture {
+                            self.showExerciseEditSheet = true
+                        }
+                        .offset(y: -20)
                 }
                 
                 if self.showAllExercises {
                     ForEach(Array(self.currentDayWorkout.exercises.dropFirst(2).enumerated()), id: \.offset) { index, exercise in
                         ExerciseStructureButton(index: index+2, exercise: exercise.key)
+                            .onTapGesture {
+                                self.showExerciseEditSheet = true
+                            }
                             .transition(.blurReplace.combined(with: .scale))
+                            .offset(y: -20)
                     }
                 }
                 
@@ -214,6 +227,7 @@ struct WorkoutScreen: View {
                 }
                 .buttonStyle(.glass)
                 .frame(maxWidth: .infinity, alignment: .trailing)
+                .offset(y: -20)
             }
             
             
@@ -224,30 +238,34 @@ struct WorkoutScreen: View {
             
             
             // MARK: Alternative workout things
-            SectionHeading(heading: "ALTERNATE WORKOUT")
-            
+            SectionHeading(heading: "ALTERNATE WORKOUT ⏰")
+                .offset(y: -20)
+
             HStack {
                 CustomButton(text: "Add Exercise", image: "plus") {
                     self.showAddExercisePage = true
                 }
-                
+
                 CustomButton(text: "Create Workout", image: "pencil.and.outline") {
                     self.showCreateWorkoutPage = true
                 }
-                
+
             }
             .frame(maxWidth: .infinity)
             .padding(.top, 1)
-            
-            SectionHeading(heading: "Water Intake".uppercased())
-            
+            .offset(y: -20)
+
+            SectionHeading(heading: "Water Intake 🥛".uppercased())
+                .offset(y: -20)
+
             VStack {
                 
             }
             .frame(height: 200)
             .frame(maxWidth: .infinity)
             .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 12.0))
-            
+            .offset(y: -20)
+
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .contentMargins(ApplicationMarginPadding.current.scrollViewHorizontalMargin)
@@ -264,7 +282,15 @@ struct WorkoutScreen: View {
             TodoScreen(currentDay: self.getDayToday())
         }
         .sheet(isPresented: self.$showWorkoutSplitSheet) {
-            WorkoutSplitScreen(currentDay: self.getDayToday())
+            NavigationStack {
+                WorkoutSplitScreen(currentDay: self.getDayToday())
+            }
+        }
+        .sheet(isPresented: self.$showExerciseEditSheet) {
+            NavigationStack {
+                ExerciseRepsSetsEditScreen()
+                    .presentationDetents([.large])
+            }
         }
     }
 }

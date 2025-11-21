@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Lottie
 
 
 struct CreateWorkoutScreen: View {
@@ -22,7 +23,10 @@ struct CreateWorkoutScreen: View {
     @State var currentSelectedPresetOption: Array<String> = []
     @State var customPreset: String = ""
     
+    @State var createdWorkout: Array<Exercise> = []
+    
     @State var isWorkoutLoading: Bool = false
+    @State var showWorkoutLoadingScreen: Bool = false
     @State var showCreatedWorkoutScreen: Bool = false
 
     
@@ -139,30 +143,34 @@ struct CreateWorkoutScreen: View {
     }
     
     func generateWorkout() async throws -> Void {
-//        if self.prompt.isEmpty || self.prompt.split(separator: " ").count < 3 {
-//            self.applicationToast.showToast(message: "Invalid Input Field", secondaryMessage: "The Prompt Should be at least 3 words long.")
-//            return
-//        }
-//        
-//        if self.selectedMuscles.isEmpty {
-//            self.applicationToast.showToast(message: "No Muscles Selected", secondaryMessage: "Select atleast 1 target muscle to continue.")
-//            return
-//        }
+        if self.prompt.isEmpty || self.prompt.split(separator: " ").count < 3 {
+            self.applicationToast.showToast(message: "Invalid Input Field", secondaryMessage: "The Prompt Should be at least 3 words long.")
+            return
+        }
+        
+        if self.selectedMuscles.isEmpty {
+            self.applicationToast.showToast(message: "No Muscles Selected", secondaryMessage: "Select atleast 1 target muscle to continue.")
+            return
+        }
         
         withAnimation {
             self.isWorkoutLoading = true
-            self.showCreatedWorkoutScreen = true
         }
         
         defer {
-            withAnimation {
+            withAnimation(.default.delay(0.25)) {
                 self.isWorkoutLoading = false
             }
         }
         
-        let workout = try await ApplicationAI.current.generateWorkout(for: [.upperChest, .lowerChest, .longHeadTriceps, .shortHeadTriceps, .medialHeadTriceps], withExerciseCount: 1, withSets: 3, withReps: 12, andPresets: ["High Volume"])
-        print(workout ?? "No Workout")
+        let workout = try await ApplicationAI.current.generateWorkout(for: self.selectedMuscles, withExerciseCount: self.totalExercises, withSets: Int(self.totalSets)!, withReps: Int(self.totalReps)!, andPresets: self.currentSelectedPresetOption)
         
+        if let workout {
+            self.createdWorkout = workout
+            withAnimation {
+                self.showCreatedWorkoutScreen = true
+            }
+        }
     }
     
     var body: some View {
@@ -416,9 +424,151 @@ struct CreateWorkoutScreen: View {
                 }
             }
         }
+        .fullScreenCover(isPresented: self.$isWorkoutLoading) {
+            CreateWorkoutLoadingScreen()
+        }
+        .navigationDestination(isPresented: self.$showCreatedWorkoutScreen) {
+            CreatedWorkoutScreen(workout: self.createdWorkout)
+        }
         .sensoryFeedback(.impact, trigger: self.currentSelectedMuscleGroup)
         .sensoryFeedback(.impact, trigger: self.totalExercises)
         .sensoryFeedback(.impact, trigger: self.currentSelectedPresetOption)
     }
 }
 
+
+struct CreatedWorkoutScreen: View {
+    
+    var workout: Array<Exercise>
+    
+    
+    @Environment(ApplicationBottomModal.self) var applicationBottomModal
+    @Environment(ApplicationToast.self) var applicationToast
+    @Environment(ApplicationWorkoutStates.self) var applicationWorkoutState
+    @Environment(\.dismiss) var dismiss
+    @State var isFavourite: Bool = false
+    
+    
+    func setUseCurrentWorkoutPlan() -> Void {
+        self.applicationBottomModal.showBottomModal(
+            message: "Switch Workout Plan!",
+            secondaryMessage: "This action will cause the current day workout to switch to the ai generated workout plan.",
+            primaryButtonText: "Switch Workout",
+            secondaryButtonText: "Don't Switch",
+            primaryAction: {
+                let currentDay = ApplicationHelper.current.getDayToday()
+                
+                for index in 0..<self.applicationWorkoutState.weeklySplit.count {
+                    if self.applicationWorkoutState.weeklySplit[index].forDay == currentDay {
+                        withAnimation {
+                            self.applicationWorkoutState.weeklySplit[index].exercises = Dictionary(uniqueKeysWithValues: self.workout.map { ($0, false)} )
+                        }
+                    }
+                }
+                
+                self.applicationBottomModal.hideBottomModal()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                    self.applicationToast.showToast(message: "Workout Plan Switched!", secondaryMessage: "You can view the workout in the home tab.")
+                    self.dismiss()
+                    self.dismiss()
+                }
+            },
+            secondaryAction: {
+                self.applicationBottomModal.hideBottomModal()
+            }
+        )
+    }
+    
+    var body: some View {
+        ScrollView(showsIndicators: false) {
+            
+            Text("This workout is created via an AI system. This workout is created using the preset you selected in the previous page.")
+                .pageDescription()
+            
+            SecondarySectionHeading(heading: "Exercises".uppercased())
+            ForEach(Array(self.workout.enumerated()), id: \.offset) { (index, exercise) in
+                ExerciseStructureButton(index: index, exercise: exercise)
+            }
+        }
+        .padding(.horizontal, ApplicationMarginPadding.current.scrollViewHorizontalMargin)
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    self.applicationBottomModal.showBottomModal(
+                        message: "Your Progress Will Be Lost!",
+                        secondaryMessage: "The workout that you just created will be lost if you go back now.",
+                        primaryButtonText: "Go Back",
+                        secondaryButtonText: "Stay",
+                        primaryAction: {
+                            self.applicationBottomModal.hideBottomModal()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                                self.dismiss()
+                            }
+                        },
+                        secondaryAction: {
+                            self.applicationBottomModal.hideBottomModal()
+                        }
+                    )
+                }) {
+                    Image(systemName: "chevron.left")
+                        .scaleEffect(0.9)
+                }
+            }
+            ToolbarItem(placement: .principal) {
+                Text("Created Workout".uppercased())
+                    .antonFont(with: 25)
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: {
+                    withAnimation {
+                        self.isFavourite.toggle()
+                    }
+                }) {
+                    Image(systemName: self.isFavourite ? "star.fill" : "star")
+                        .scaleEffect(0.9)
+                        .contentTransition(.symbolEffect)
+                }
+            }
+            
+            ToolbarItem(placement: .bottomBar) {
+                Button(action: {
+                    self.setUseCurrentWorkoutPlan()
+                }) {
+                    Text("Use Workout".uppercased())
+                        .frame(maxWidth: .infinity)
+                }
+                .frame(maxWidth: .infinity)
+            }
+        }
+    }
+}
+
+struct CreateWorkoutLoadingScreen: View {
+    var body: some View {
+        VStack {
+            GeometryReader { geometryProxy in
+                LottieView(animation: .named("create_workout_loading_animation"))
+                    .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                    .padding(50)
+                    .overlay {
+                        Text("workout - Loading".uppercased())
+                            .antonFont(with: 25)
+                            .foregroundStyle(.white)
+                            .offset(y: geometryProxy.size.height / 5)
+                    }
+            }
+            .offset(y: -75)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.black)
+        .toolbar {
+            
+        }
+    }
+}
+
+#Preview {
+    CreateWorkoutLoadingScreen()
+}

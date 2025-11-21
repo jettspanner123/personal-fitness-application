@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		079ACDF62E9CE0AF0064BA39 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 079ACDF52E9CE0AF0064BA39 /* GoogleGenerativeAI */; };
+		07BB2B2F2ED037EB00B6ED89 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 07BB2B2E2ED037EB00B6ED89 /* Lottie */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -54,6 +55,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				079ACDF62E9CE0AF0064BA39 /* GoogleGenerativeAI in Frameworks */,
+				07BB2B2F2ED037EB00B6ED89 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +100,7 @@
 			name = PersonalFitnesssTracker;
 			packageProductDependencies = (
 				079ACDF52E9CE0AF0064BA39 /* GoogleGenerativeAI */,
+				07BB2B2E2ED037EB00B6ED89 /* Lottie */,
 			);
 			productName = PersonalFitnesssTracker;
 			productReference = 070BCBCF2E94EEE3002B127E /* PersonalFitnesssTracker.app */;
@@ -129,6 +132,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				079ACDF42E9CE0AF0064BA39 /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */,
+				07BB2B2D2ED037EB00B6ED89 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 070BCBD02E94EEE3002B127E /* Products */;
@@ -386,6 +390,14 @@
 				minimumVersion = 0.5.6;
 			};
 		};
+		07BB2B2D2ED037EB00B6ED89 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -393,6 +405,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 079ACDF42E9CE0AF0064BA39 /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */;
 			productName = GoogleGenerativeAI;
+		};
+		07BB2B2E2ED037EB00B6ED89 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 07BB2B2D2ED037EB00B6ED89 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
